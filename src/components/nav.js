@@ -1,5 +1,6 @@
 import React from "react";
 // import { Redirect } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 export default class Nav extends React.Component {
   constructor(props) {
@@ -14,14 +15,13 @@ export default class Nav extends React.Component {
   mySubmitHandler = (event) => {
     event.preventDefault();
 
-    document.cookie = `success=false`;
+    Cookies.set('success', 'false');
     // <Redirect exact to="/" />;
     window.location = "/"
   };
 
   render() {
-    const success = document.cookie;
-    if (success === "success=true") {
+    if (Cookies.get('success') === 'true') {
       return (
         <nav class="deep-purple lighten-4">
           <a class="clear" href="/" style={{ float: "left", marginLeft: 10 }}>

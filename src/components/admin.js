@@ -108,7 +108,7 @@ export default class Admin extends React.Component {
   }
 
   render() {
-    if (Cookies.get('success') === 'true') {
+    if (Cookies.get('success') === 'false') {
       window.location = "/";
     } else {
       return (
