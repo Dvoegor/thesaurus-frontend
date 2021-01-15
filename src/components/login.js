@@ -6,6 +6,8 @@ import {
   ToastsStore,
 } from "react-toasts";
 // import { Redirect } from "react-router-dom";
+import configData from "./config.json";
+import Cookies from 'js-cookie';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -36,14 +38,14 @@ export default class Login extends React.Component {
 
     axios({
       method: "post",
-      url: "http://localhost:3000/login",
+      url: `${configData.DEVELOMPENT_URL}/login`,
       data: {
         email: email,
         password: password,
       },
     }).then(function (response) {
       if (response.data) {
-        document.cookie = "success=true"
+        Cookies.set('success', 'true');
         // <Redirect exact to="/" />;
         window.location = "/"
       } else {
@@ -55,7 +57,7 @@ export default class Login extends React.Component {
   };
 
   render() {
-    if (document.cookie === `success=true`) {
+    if (Cookies.get('success') === 'true') {
 
       // <Redirect exact to="/" />;
       window.location = "/"

@@ -1,6 +1,8 @@
 import React from "react";
 import LoadingBar from "react-top-loading-bar";
 import axios from "axios";
+import configData from "./config.json";
+import Cookies from 'js-cookie';
 
 export default class MainPage extends React.Component {
   constructor(props) {
@@ -31,7 +33,7 @@ export default class MainPage extends React.Component {
     console.log(document.cookie);
     axios({
       method: "get",
-      url: "http://localhost:3000/",
+      url: configData.DEVELOMPENT_URL,
       params: {
         page: this.state.page,
       },
@@ -86,7 +88,7 @@ export default class MainPage extends React.Component {
     console.log(this.state);
     axios({
       method: "get",
-      url: "http://localhost:3000/",
+      url: configData.DEVELOMPENT_URL,
       params: {
         question: this.state.question,
         answer: this.state.answer,
@@ -345,7 +347,7 @@ export default class MainPage extends React.Component {
             <i class="tiny material-icons">assignment</i>Найдено записей:{" "}
             <span class="bold">{this.state.dbFoundRecords}</span>
           </h6>
-          {document.cookie === `success=true` ? (
+          {Cookies.get('success') === 'true' ? (
             <a class="white-text" href="/create">
               <button class="btn waves-effect waves-light blue" type="submit">
                 Создать запись
@@ -408,8 +410,8 @@ export default class MainPage extends React.Component {
                   <th>Функция</th>
                   <th>Способ</th>
                   <th>Область</th>
-                  {document.cookie === `success=true` ? <th>Ред.</th> : ""}
-                  {document.cookie === `success=true` ? <th>Удалить</th> : ""}
+                  {Cookies.get('success') === 'true' ? <th>Ред.</th> : ""}
+                  {Cookies.get('success') === 'true' ? <th>Удалить</th> : ""}
                 </tr>
               </thead>
               <tbody>
@@ -420,7 +422,7 @@ export default class MainPage extends React.Component {
                     <td>{item.function}</td>
                     <td>{item.method}</td>
                     <td>{item.subjectArea}</td>
-                    {document.cookie === `success=true` ? (
+                    {Cookies.get('success') === 'true' ? (
                       <td>
                         <a href={"/edit/" + item.id}>
                           <i class="material-icons left">edit</i>
@@ -429,7 +431,7 @@ export default class MainPage extends React.Component {
                     ) : (
                       ""
                     )}
-                    {document.cookie === `success=true` ? (
+                    {Cookies.get('success') === 'true' ? (
                       <td>
                         <a href={"/delete/" + item.id}>
                           <i class="material-icons left">delete</i>

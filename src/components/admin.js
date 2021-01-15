@@ -1,7 +1,11 @@
 import React from "react";
 import axios from "axios";
+import configData from "./config.json";
+import Cookies from 'js-cookie';
 const FileDownload = require('js-file-download');
 // import { Redirect } from "react-router-dom";
+
+
 
 export default class Admin extends React.Component {
   constructor(props) {
@@ -18,7 +22,7 @@ export default class Admin extends React.Component {
     axios({
         method: "get",
         withCredentials: true,
-        url: "http://localhost:3000/admin/txt",
+        url: `${configData.DEVELOMPENT_URL}/admin/txt`,
         responseType: 'blob', // Important
       }).then(
         (response) => {
@@ -33,7 +37,7 @@ export default class Admin extends React.Component {
     axios({
         method: "get",
         withCredentials: true,
-        url: "http://localhost:3000/admin/json",
+        url: `${configData.DEVELOMPENT_URL}/admin/json`,
         responseType: 'blob', // Important
       }).then(
         (response) => {
@@ -48,7 +52,7 @@ export default class Admin extends React.Component {
     axios({
         method: "get",
         withCredentials: true,
-        url: "http://localhost:3000/admin/csv",
+        url: `${configData.DEVELOMPENT_URL}/admin/csv`,
         responseType: 'blob', // Important
       }).then(
         (response) => {
@@ -63,7 +67,7 @@ export default class Admin extends React.Component {
     axios({
         method: "get",
         withCredentials: true,
-        url: "http://localhost:3000/admin/xls",
+        url: `${configData.DEVELOMPENT_URL}/admin/xls`,
         responseType: 'blob', // Important
       }).then(
         (response) => {
@@ -76,7 +80,7 @@ export default class Admin extends React.Component {
     axios({
       method: "get",
       withCredentials: true,
-      url: "http://localhost:3000/admin",
+      url: `${configData.DEVELOMPENT_URL}/admin`,
     }).then(
       (result) => {
         this.setState({
@@ -104,7 +108,7 @@ export default class Admin extends React.Component {
   }
 
   render() {
-    if (document.cookie === `success=false`) {
+    if (Cookies.get('success') === 'true') {
       window.location = "/";
     } else {
       return (

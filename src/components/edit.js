@@ -5,6 +5,8 @@ import {
     ToastsContainerPosition,
     ToastsStore,
   } from "react-toasts";
+  import configData from "./config.json";
+  import Cookies from 'js-cookie';
 
 // import { Redirect } from "react-router-dom";
 
@@ -37,7 +39,7 @@ export default class Edit extends React.Component {
 
     var url = window.location.href;
     var id = url.substring(url.lastIndexOf("/") + 1);
-    url = `http://localhost:3000/edit/${id}`;
+    url = `${configData.DEVELOMPENT_URL}/edit/${id}`;
 
     console.log(this.state);
     axios({
@@ -64,7 +66,7 @@ export default class Edit extends React.Component {
   componentDidMount() {
     var url = window.location.href;
     var id = url.substring(url.lastIndexOf("/") + 1);
-    url = `http://localhost:3000/edit/${id}`;
+    url = `${configData.DEVELOMPENT_URL}/edit/${id}`;
 
     axios({
       method: "get",
@@ -82,7 +84,7 @@ export default class Edit extends React.Component {
   }
 
   render() {
-    if (document.cookie === `success=false`) {
+    if (Cookies.get('success') === 'false') {
       window.location = "/";
     } else {
       return (

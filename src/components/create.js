@@ -5,8 +5,9 @@ import {
     ToastsContainerPosition,
     ToastsStore,
   } from "react-toasts";
-
+  import configData from "./config.json";
 // import { Redirect } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 export default class Create extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ export default class Create extends React.Component {
     console.log(this.state);
     axios({
       method: "POST",
-      url: 'http://localhost:3000/create/',
+      url: `${configData.DEVELOMPENT_URL}/create/`,
       withCredentials: true,
       data: {
         question: this.state.question,
@@ -59,7 +60,7 @@ export default class Create extends React.Component {
 
 
   render() {
-    if (document.cookie === `success=false`) {
+    if (Cookies.get('success') === 'false') {
       window.location = "/";
     } else {
       return (
