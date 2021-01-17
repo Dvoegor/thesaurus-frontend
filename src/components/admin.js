@@ -1,114 +1,70 @@
 import React from "react";
 import axios from "axios";
 import configData from "./config.json";
-import Cookies from 'js-cookie';
-const FileDownload = require('js-file-download');
-// import { Redirect } from "react-router-dom";
-
-
+import Cookies from "js-cookie";
+const FileDownload = require("js-file-download");
 
 export default class Admin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       logs: [],
-    //   fileFormat: ''
+      fileFormat: "",
+      idsArr: [],
     };
-    // this.state = this.state.bind(this)
   }
-  getTxt = (event) => {
+  downloadFile = async (event) => {
     event.preventDefault();
 
-    axios({
-        method: "get",
-        withCredentials: true,
-        url: `${configData.DEVELOMPENT_URL}/admin/txt`,
-        responseType: 'blob', // Important
-      }).then(
-        (response) => {
-            FileDownload(response.data, 'crossWords.txt');
-        }
-      );
-  }
+    const target = event.target;
+    const name = target.name;
 
-  getJson = (event) => {
-    event.preventDefault();
+    await this.setState({
+      fileFormat: name,
+    });
+    const fileFormat = this.state.fileFormat;
 
     axios({
-        method: "get",
-        withCredentials: true,
-        url: `${configData.DEVELOMPENT_URL}/admin/json`,
-        responseType: 'blob', // Important
-      }).then(
-        (response) => {
-            FileDownload(response.data, 'crossWords.json');
-        }
-      );
-  }
-
-  getCsv = (event) => {
-    event.preventDefault();
-
-    axios({
-        method: "get",
-        withCredentials: true,
-        url: `${configData.DEVELOMPENT_URL}/admin/csv`,
-        responseType: 'blob', // Important
-      }).then(
-        (response) => {
-            FileDownload(response.data, 'crossWords.csv');
-        }
-      );
-  }
-
-  getXls = (event) => {
-    event.preventDefault();
-
-    axios({
-        method: "get",
-        withCredentials: true,
-        url: `${configData.DEVELOMPENT_URL}/admin/xls`,
-        responseType: 'blob', // Important
-      }).then(
-        (response) => {
-            FileDownload(response.data, 'crossWords.xls');
-        }
-      );
-  }
+      method: "get",
+      withCredentials: true,
+      url: `${configData.DEVELOMPENT_URL}/admin/${fileFormat}`,
+      responseType: "blob",
+    }).then((response) => {
+      FileDownload(response.data, `crossWords.${fileFormat}`);
+    });
+  };
 
   componentDidMount() {
     axios({
       method: "get",
       withCredentials: true,
       url: `${configData.DEVELOMPENT_URL}/admin`,
-    }).then(
-      (result) => {
-        this.setState({
-            logs: result.data,
-        });
-        this.setState({
-            logs: this.state.logs.map(function(log) {
-                if (log.log_type) {
-                    if (log.log_type === 1) {
-                        log.log_type = 'Редактирование'
-                        return log
-                    } else {
-                        log.log_type = 'Создание'
-                        return log
-                    }
-                } else {
-                    log.log_type = 'Удаление'
-                    return log
-                }
-            }),
-        });
-        console.log(this.state.logs)
-      }
-    );
+    }).then((result) => {
+      this.setState({
+        logs: result.data.logs,
+        idsArr: result.data.idsArr,
+      });
+      this.setState({
+        logs: this.state.logs.map(function (log) {
+          if (log.log_type) {
+            if (log.log_type === 1) {
+              log.log_type = "Редактирование";
+              return log;
+            } else {
+              log.log_type = "Создание";
+              return log;
+            }
+          } else {
+            log.log_type = "Удаление";
+            return log;
+          }
+        }),
+      });
+    });
   }
 
   render() {
-    if (Cookies.get('success') === 'false') {
+    if (Cookies.get("success") === "false") {
       window.location = "/";
     } else {
       return (
@@ -128,7 +84,12 @@ export default class Admin extends React.Component {
                 <tr>
                   <td>txt</td>
                   <td>
-                    <a href="admin/download/txt" class="badge badge-info" onClick={this.getTxt}>
+                    <a
+                      href="admin/download/txt"
+                      class="badge badge-info"
+                      name={"txt"}
+                      onClick={this.downloadFile}
+                    >
                       Скачать
                     </a>
                   </td>
@@ -136,7 +97,12 @@ export default class Admin extends React.Component {
                 <tr>
                   <td>json</td>
                   <td>
-                    <a href="admin/download/json" class="badge badge-info" onClick={this.getJson}>
+                    <a
+                      href="admin/download/json"
+                      class="badge badge-info"
+                      name={"json"}
+                      onClick={this.downloadFile}
+                    >
                       Скачать
                     </a>
                   </td>
@@ -144,7 +110,12 @@ export default class Admin extends React.Component {
                 <tr>
                   <td>csv</td>
                   <td>
-                    <a href="admin/download/csv" class="badge badge-info"  onClick={this.getCsv}>
+                    <a
+                      href="admin/download/csv"
+                      class="badge badge-info"
+                      name={"csv"}
+                      onClick={this.downloadFile}
+                    >
                       Скачать
                     </a>
                   </td>
@@ -152,7 +123,12 @@ export default class Admin extends React.Component {
                 <tr>
                   <td>xls</td>
                   <td>
-                    <a href="admin/download/xls" class="badge badge-info"  onClick={this.getXls}>
+                    <a
+                      href="admin/download/xls"
+                      class="badge badge-info"
+                      name={"xls"}
+                      onClick={this.downloadFile}
+                    >
                       Скачать
                     </a>
                   </td>
@@ -175,14 +151,20 @@ export default class Admin extends React.Component {
 
               <tbody>
                 {this.state.logs.map((log) => (
-                <tr>
-                        <td><a href={'edit/' + log.record_id}>{log.record_id}</a></td>
+                  <tr>
+                    <td>
+                      {this.state.idsArr.indexOf(log.record_id) !== -1 ? (
+                        <span style={{ color: "red" }}>{log.record_id}</span>
+                      ) : (
+                        <a href={"edit/" + log.record_id}>{log.record_id}</a>
+                      )}
+                    </td>
                     <td>{log.email}</td>
                     <td>{log.time}</td>
                     <td>{log.date}</td>
                     <td>{log.log_type}</td>
-                </tr>
-            ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

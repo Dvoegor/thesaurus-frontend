@@ -2,7 +2,7 @@ import React from "react";
 import LoadingBar from "react-top-loading-bar";
 import axios from "axios";
 import configData from "./config.json";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export default class MainPage extends React.Component {
   constructor(props) {
@@ -30,40 +30,32 @@ export default class MainPage extends React.Component {
   }
 
   componentDidMount() {
-    console.log(document.cookie);
     axios({
       method: "get",
       url: configData.DEVELOMPENT_URL,
       params: {
         page: this.state.page,
       },
-    })
-      // .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result.data.records,
-            dbSize: result.data.dbSize,
-            methods: result.data.methods,
-            subjectAreas: result.data.subjectAreas,
-            dbFoundRecords: result.data.dbFoundRecords,
-            pageCount: result.data.pageCount,
-            pageArr: result.data.pageArr,
-          });
-
-          // for (let i = 0; i < this.state.pageCount; i++) {
-          //   this.state.pageArr.push(i + 1);
-          // }
-          console.log(this.state.pageArr);
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
+    }).then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          items: result.data.records,
+          dbSize: result.data.dbSize,
+          methods: result.data.methods,
+          subjectAreas: result.data.subjectAreas,
+          dbFoundRecords: result.data.dbFoundRecords,
+          pageCount: result.data.pageCount,
+          pageArr: result.data.pageArr,
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error,
+        });
+      }
+    );
   }
 
   handleInputChange(event) {
@@ -84,8 +76,6 @@ export default class MainPage extends React.Component {
 
   mySubmitHandler = (event) => {
     event.preventDefault();
-
-    console.log(this.state);
     axios({
       method: "get",
       url: configData.DEVELOMPENT_URL,
@@ -98,25 +88,23 @@ export default class MainPage extends React.Component {
         func: this.state.func,
         page: this.state.page,
       },
-    })
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result.data.records,
-            dbFoundRecords: result.data.dbFoundRecords,
-            pageCount: result.data.pageCount,
-            pageArr: result.data.pageArr,
-          });
-          console.log(this.state.pageArr);
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
+    }).then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          items: result.data.records,
+          dbFoundRecords: result.data.dbFoundRecords,
+          pageCount: result.data.pageCount,
+          pageArr: result.data.pageArr,
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error,
+        });
+      }
+    );
   };
 
   render() {
@@ -154,7 +142,6 @@ export default class MainPage extends React.Component {
                     value={this.state.question}
                     onChange={this.handleInputChange}
                   />
-                  {/* <label for="first_name">Формула смысла</label> */}
                 </div>
                 <div class="input-field col s5">
                   <input
@@ -166,7 +153,6 @@ export default class MainPage extends React.Component {
                     value={this.state.answer}
                     onChange={this.handleInputChange}
                   />
-                  {/* <label for="first_name">Знак</label> */}
                 </div>
               </div>
               <div class="row">
@@ -281,7 +267,6 @@ export default class MainPage extends React.Component {
                         })}
                       </select>
                     </label>
-                    {/* <h6 id="methodId"></h6> */}
                   </div>
                   <div class="input-field col s6">
                     <label>
@@ -303,7 +288,6 @@ export default class MainPage extends React.Component {
                         })}
                       </select>
                     </label>
-                    {/* <h6 id="subjectAreaId"></h6> */}
                   </div>
                 </div>
                 <br></br>
@@ -316,23 +300,8 @@ export default class MainPage extends React.Component {
                   <i class="material-icons right">adjust</i>
                 </button>
               </div>
-              
-              {/* <ul class="pagination">
-    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-    <li class="active"><a href="#!">1</a></li>
-    <li class="waves-effect"><a href="#!">2</a></li>
-    <li class="waves-effect"><a href="#!">3</a></li>
-    <li class="waves-effect"><a href="#!">4</a></li>
-    <li class="waves-effect"><a href="#!">5</a></li>
-    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-  </ul>
-           {}  */}
             </form>
-            <form
-              class="clear"
-              // style={{ marginTop: -100, float: "left", marginLeft: 180 }}
-              onSubmit={this.clearHandler}
-            >
+            <form class="clear" onSubmit={this.clearHandler}>
               <button
                 class="btn waves-effect waves-light pink darken-1"
                 type="submit"
@@ -347,7 +316,7 @@ export default class MainPage extends React.Component {
             <i class="tiny material-icons">assignment</i>Найдено записей:{" "}
             <span class="bold">{this.state.dbFoundRecords}</span>
           </h6>
-          {Cookies.get('success') === 'true' ? (
+          {Cookies.get("success") === "true" ? (
             <a class="white-text" href="/create">
               <button class="btn waves-effect waves-light blue" type="submit">
                 Создать запись
@@ -358,48 +327,24 @@ export default class MainPage extends React.Component {
           )}
           <br></br>
           <div class="scroll">
-          <ul class="pagination">
-            <form onSubmit={this.mySubmitHandler}>
-              {pageArr.map((pageId) => (
-                <li class="waves-effect">
-                  {/* <input
-                    hidden
-                    name="page"
-                    value={pageId}
-                    onClick={this.handleInputChange}
-                  /> */}
-                  <button
-                    class={"btn waves-effect waves-light btn-flat"}
-                    type="submit"
-                    name="page"
-                    value={pageId}
-                    onClick={this.handleInputChange}
-                  >
-                    {pageId}
-                  </button>
-                </li>
-              ))}
-            </form>
-          </ul>
+            <ul class="pagination">
+              <form onSubmit={this.mySubmitHandler}>
+                {pageArr.map((pageId) => (
+                  <li class="waves-effect">
+                    <button
+                      class={"btn waves-effect waves-light btn-flat"}
+                      type="submit"
+                      name="page"
+                      value={pageId}
+                      onClick={this.handleInputChange}
+                    >
+                      {pageId}
+                    </button>
+                  </li>
+                ))}
+              </form>
+            </ul>
           </div>
-          {/* <ul class="pagination">
-            {pageArr.map((pageId) => (
-              <li class="waves-effect">
-                  <input
-                    hidden
-                    name="page"
-                    value={pageId}
-                    onChange={this.handleInputChange}
-                  />
-                  <button
-                    class="btn waves-effect waves-light blue"
-                    type="submit"
-                  >
-                    {pageId}
-                  </button>
-              </li>
-            ))}
-          </ul> */}
           <hr></hr>
           <div class="responsive-table">
             <table class="striped centered">
@@ -410,8 +355,8 @@ export default class MainPage extends React.Component {
                   <th>Функция</th>
                   <th>Способ</th>
                   <th>Область</th>
-                  {Cookies.get('success') === 'true' ? <th>Ред.</th> : ""}
-                  {Cookies.get('success') === 'true' ? <th>Удалить</th> : ""}
+                  {Cookies.get("success") === "true" ? <th>Ред.</th> : ""}
+                  {Cookies.get("success") === "true" ? <th>Удалить</th> : ""}
                 </tr>
               </thead>
               <tbody>
@@ -422,7 +367,7 @@ export default class MainPage extends React.Component {
                     <td>{item.function}</td>
                     <td>{item.method}</td>
                     <td>{item.subjectArea}</td>
-                    {Cookies.get('success') === 'true' ? (
+                    {Cookies.get("success") === "true" ? (
                       <td>
                         <a href={"/edit/" + item.id}>
                           <i class="material-icons left">edit</i>
@@ -431,7 +376,7 @@ export default class MainPage extends React.Component {
                     ) : (
                       ""
                     )}
-                    {Cookies.get('success') === 'true' ? (
+                    {Cookies.get("success") === "true" ? (
                       <td>
                         <a href={"/delete/" + item.id}>
                           <i class="material-icons left">delete</i>

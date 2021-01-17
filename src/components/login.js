@@ -5,9 +5,9 @@ import {
   ToastsContainerPosition,
   ToastsStore,
 } from "react-toasts";
-// import { Redirect } from "react-router-dom";
+
 import configData from "./config.json";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -45,22 +45,18 @@ export default class Login extends React.Component {
       },
     }).then(function (response) {
       if (response.data) {
-        Cookies.set('success', 'true');
-        // <Redirect exact to="/" />;
-        window.location = "/"
+        Cookies.set("success", `${response.data.success}`);
+        Cookies.set("email", `${response.data.email}`);
+        window.location = "/";
       } else {
         ToastsStore.error("Неверные данные");
       }
-      //   console.log(response.data);
-      //   document.cookie = `success=true`
     });
   };
 
   render() {
-    if (Cookies.get('success') === 'true') {
-
-      // <Redirect exact to="/" />;
-      window.location = "/"
+    if (Cookies.get("success") === "true") {
+      window.location = "/";
     } else {
       return (
         <div class="container mt-md-5 col-8">

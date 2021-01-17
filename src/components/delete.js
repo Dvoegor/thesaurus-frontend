@@ -1,24 +1,22 @@
 import React from "react";
 import axios from "axios";
 import {
-    ToastsContainer,
-    ToastsContainerPosition,
-    ToastsStore,
-  } from "react-toasts";
-  import configData from "./config.json";
-  import Cookies from 'js-cookie';
-
-// import { Redirect } from "react-router-dom";
+  ToastsContainer,
+  ToastsContainerPosition,
+  ToastsStore,
+} from "react-toasts";
+import configData from "./config.json";
+import Cookies from "js-cookie";
 
 export default class Delete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        question: '',
-        answer: '',
-        method: '',
-        subjectArea: '',
-        function: '',
+      question: "",
+      answer: "",
+      method: "",
+      subjectArea: "",
+      function: "",
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.mySubmitHandler = this.mySubmitHandler.bind(this);
@@ -41,7 +39,6 @@ export default class Delete extends React.Component {
     var id = url.substring(url.lastIndexOf("/") + 1);
     url = `${configData.DEVELOMPENT_URL}/delete/${id}`;
 
-    console.log(this.state);
     axios({
       method: "POST",
       url: url,
@@ -77,7 +74,7 @@ export default class Delete extends React.Component {
   }
 
   render() {
-    if (Cookies.get('success') === 'false') {
+    if (Cookies.get("success") === "false") {
       window.location = "/";
     } else {
       return (
@@ -86,12 +83,12 @@ export default class Delete extends React.Component {
             Вернуться
           </a>
           <h3>Удаление</h3>
-          <form class="left-align"  onSubmit={this.mySubmitHandler}>
+          <form class="left-align" onSubmit={this.mySubmitHandler}>
             <input type="hidden" name="id" value="{{row.id}}" />
             <div class="form-group">
               <label for="question">Формула смысла</label>
               <input
-              disabled
+                disabled
                 type="text"
                 name="question"
                 class="form-control"
@@ -103,7 +100,7 @@ export default class Delete extends React.Component {
             <div class="form-group">
               <label for="answer">Знак</label>
               <input
-              disabled
+                disabled
                 type="text"
                 name="answer"
                 class="form-control"
@@ -115,7 +112,7 @@ export default class Delete extends React.Component {
             <div class="form-group">
               <label for="function">Функция</label>
               <input
-              disabled
+                disabled
                 type="text"
                 name="function"
                 class="form-control"
@@ -127,7 +124,7 @@ export default class Delete extends React.Component {
             <div class="form-group">
               <label for="method">Способ</label>
               <input
-              disabled
+                disabled
                 type="text"
                 name="method"
                 class="form-control"
@@ -139,7 +136,7 @@ export default class Delete extends React.Component {
             <div class="form-group">
               <label for="subjectArea">Область</label>
               <input
-              disabled
+                disabled
                 type="text"
                 name="subjectArea"
                 class="form-control"
@@ -148,7 +145,10 @@ export default class Delete extends React.Component {
                 value={this.state.subjectArea}
               />
             </div>
-            <button type="submit" class="btn waves-effect waves-light pink darken-1">
+            <button
+              type="submit"
+              class="btn waves-effect waves-light pink darken-1"
+            >
               Удалить
             </button>
           </form>

@@ -25,7 +25,7 @@ export default class About extends React.Component {
         <div>
           <h1>О проекте</h1>
           <p class="flow-text">
-            {'Этот проект является наследником '}
+            {"Этот проект является наследником "}
             <a target="_blank" rel="noreferrer" href="http://www.tesaurus.ru/">
               www.tesaurus.ru
             </a>

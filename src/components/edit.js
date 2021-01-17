@@ -1,24 +1,22 @@
 import React from "react";
 import axios from "axios";
 import {
-    ToastsContainer,
-    ToastsContainerPosition,
-    ToastsStore,
-  } from "react-toasts";
-  import configData from "./config.json";
-  import Cookies from 'js-cookie';
-
-// import { Redirect } from "react-router-dom";
+  ToastsContainer,
+  ToastsContainerPosition,
+  ToastsStore,
+} from "react-toasts";
+import configData from "./config.json";
+import Cookies from "js-cookie";
 
 export default class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        question: '',
-        answer: '',
-        method: '',
-        subjectArea: '',
-        function: '',
+      question: "",
+      answer: "",
+      method: "",
+      subjectArea: "",
+      function: "",
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.mySubmitHandler = this.mySubmitHandler.bind(this);
@@ -41,7 +39,6 @@ export default class Edit extends React.Component {
     var id = url.substring(url.lastIndexOf("/") + 1);
     url = `${configData.DEVELOMPENT_URL}/edit/${id}`;
 
-    console.log(this.state);
     axios({
       method: "POST",
       url: url,
@@ -84,7 +81,7 @@ export default class Edit extends React.Component {
   }
 
   render() {
-    if (Cookies.get('success') === 'false') {
+    if (Cookies.get("success") === "false") {
       window.location = "/";
     } else {
       return (
@@ -93,7 +90,7 @@ export default class Edit extends React.Component {
             Вернуться
           </a>
           <h3>Редактирование</h3>
-          <form class="left-align"  onSubmit={this.mySubmitHandler}>
+          <form class="left-align" onSubmit={this.mySubmitHandler}>
             <input type="hidden" name="id" value="{{row.id}}" />
             <div class="form-group">
               <label for="question">Формула смысла</label>

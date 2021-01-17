@@ -1,23 +1,23 @@
 import React from "react";
 import axios from "axios";
 import {
-    ToastsContainer,
-    ToastsContainerPosition,
-    ToastsStore,
-  } from "react-toasts";
-  import configData from "./config.json";
+  ToastsContainer,
+  ToastsContainerPosition,
+  ToastsStore,
+} from "react-toasts";
+import configData from "./config.json";
 // import { Redirect } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export default class Create extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        question: '',
-        answer: '',
-        method: '',
-        subjectArea: '',
-        function: '',
+      question: "",
+      answer: "",
+      method: "",
+      subjectArea: "",
+      function: "",
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.mySubmitHandler = this.mySubmitHandler.bind(this);
@@ -36,10 +36,9 @@ export default class Create extends React.Component {
   mySubmitHandler = (event) => {
     event.preventDefault();
 
-    console.log(this.state);
     axios({
       method: "POST",
-      url: `${configData.DEVELOMPENT_URL}/create/`,
+      url: `${configData.DEVELOMPENT_URL}/create`,
       withCredentials: true,
       data: {
         question: this.state.question,
@@ -58,9 +57,8 @@ export default class Create extends React.Component {
     );
   };
 
-
   render() {
-    if (Cookies.get('success') === 'false') {
+    if (Cookies.get("success") === "false") {
       window.location = "/";
     } else {
       return (
@@ -69,7 +67,7 @@ export default class Create extends React.Component {
             Вернуться
           </a>
           <h3>Создание</h3>
-          <form class="left-align"  onSubmit={this.mySubmitHandler}>
+          <form class="left-align" onSubmit={this.mySubmitHandler}>
             <input type="hidden" name="id" value="{{row.id}}" />
             <div class="form-group">
               <label for="question">Формула смысла</label>
